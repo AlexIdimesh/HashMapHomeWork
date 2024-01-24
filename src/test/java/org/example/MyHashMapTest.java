@@ -8,61 +8,56 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MyHashMapTest {
+class MyHashMapTest {
     private MyHashMap<Integer,String> map = new MyHashMap<>();
 
     @BeforeEach
     void setUp() {
         map = new MyHashMap<>();
+        map.put(1, "one");
+        map.put(2, "two");
+    }
+    @Test
+    void testPrintHashMap() {
+        for(int i = 0; i < 100_00; i ++) {
+            map.printHashMap();
+        }
+    }
+    @Test
+    void testKeySet() {
+        for (int i = 0; i < 100_00;i ++) {
+            assertTrue(map.keySet().contains(1));
+            assertTrue(map.keySet().contains(2));
+        }
+    }
+    @Test
+    void testContainsKey() {
+        for (int i = 0; i < 100_00; i ++) {
+            assertTrue(map.containsKey(1));
+            assertFalse(map.containsKey(3));
+        }
+    }
+    @Test
+    void testGet() {
+        for (int i = 0; i < 100_000; i ++) {
+            assertNotNull(map.get(1));
+            assertNull(map.get(3));
+        }
     }
 
     @Test
-    public void testPrintHashMap() {
-        map.put(1, "one");
-        map.put(2, "two");
-
-        map.printHashMap();
-    }
-    @Test
-    public void testKeySet() {
-        map.put(1, "one");
-        map.put(2, "two");
-
-        assertTrue(map.keySet().contains(1));
-        assertTrue(map.keySet().contains(2));
-    }
-    @Test
-    public void testContainsKey() {
-        map.put(1, "one");
-        map.put(2, "two");
-
-        assertTrue(map.containsKey(1));
-        assertFalse(map.containsKey(3));
-    }
-    @Test
-    public void testGet() {
-        map.put(1, "one");
-        map.put(2, "two");
-
-        assertNotNull(map.get(1));
-        assertNull(map.get(3));
+    void testRemove() {
+        for (int i = 0; i < 100_00; i ++) {
+            map.remove(1);
+            assertEquals(null, map.get(1));
+        }
     }
 
     @Test
-    public void testRemove() {
-        map.put(1, "one");
-        map.put(2, "two");
-
-        map.remove(1);
-        assertEquals(null, map.get(1));
-    }
-
-    @Test
-    public void testPut() {
-        map.put(1, "one");
-        map.put(2, "two");
-
-        assertEquals("one", map.get(1));
+    void testPut() {
+        for (int i = 0; i < 100_000; i ++) {
+            assertEquals("one", map.get(1));
+        }
     }
     @ParameterizedTest
     @CsvSource({
@@ -71,7 +66,7 @@ public class MyHashMapTest {
             "3, three",
             "4, four"
     })
-    public void testPutWithLargeData(int key, String value){
+    void testPutWithLargeData(int key, String value){
         map.put(key,value);
         assertEquals(value, map.get(key));
     }
@@ -82,7 +77,7 @@ public class MyHashMapTest {
             "3, three",
             "4, four"
     })
-    public void testPrintHashMapWithLargeData(int key, String value) {
+    void testPrintHashMapWithLargeData(int key, String value) {
         map.put(key,value);
 
         map.printHashMap();
@@ -94,7 +89,7 @@ public class MyHashMapTest {
             "3, three",
             "4, four"
     })
-    public void testKeySetWithLargeData(int key, String value) {
+    void testKeySetWithLargeData(int key, String value) {
         map.put(key,value);
 
         assertTrue(map.keySet().contains(key));
@@ -106,7 +101,7 @@ public class MyHashMapTest {
             "3, three",
             "4, four"
     })
-    public void testContainsKeyWithLargeData(int key, String value) {
+    void testContainsKeyWithLargeData(int key, String value) {
         map.put(key,value);
 
         assertTrue(map.containsKey(key));
@@ -118,7 +113,7 @@ public class MyHashMapTest {
             "3, three",
             "4, four"
     })
-    public void testGetWithLargeData(int key, String value) {
+    void testGetWithLargeData(int key, String value) {
         map.put(key,value);
 
         assertNotNull(map.get(key));
@@ -130,7 +125,7 @@ public class MyHashMapTest {
             "3, three",
             "4, four"
     })
-    public void testRemoveWithLargeData(int key, String value) {
+    void testRemoveWithLargeData(int key, String value) {
         map.put(key,value);
         map.remove(key);
 
